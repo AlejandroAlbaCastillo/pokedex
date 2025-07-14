@@ -1,0 +1,27 @@
+<div class="pie">
+    <label>© <label for="" id="anio"></label> Alejandro Alba Castillo. Todos los derechos reservados.</label>
+</div>
+
+<script>
+    const añoActual = new Date().getFullYear();
+    console.log(añoActual);
+    $('#anio').val(añoActual)
+</script>
+
+<style>
+    .pie{
+        background-color: #004030;
+        height:30px;
+        position: fixed;
+        bottom:0px;
+        left: 0px;
+        width:100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    label{
+        color: white;
+        font-size: 20px;
+    }
+</style>
