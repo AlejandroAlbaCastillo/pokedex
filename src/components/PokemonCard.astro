@@ -1,0 +1,37 @@
+---
+interface Props {
+	pokedex_id: string;
+	name: string;
+    photo: string;
+    type_1: string;
+	type_2: string;
+}
+
+const { pokedex_id, name, photo, type_1, type_2 } = Astro.props;
+---
+
+<div class="carta-pokemon">
+    <span class="pokemon_id_p">#{pokedex_id}</span>
+    <img class="foto-carta" src={photo} alt="Foto de {name}">
+    <p>{name}</p>
+    <label for="tipo1">{type_1}</label>
+    <label for="tipo2">{type_2}</label>
+</div>
+<style>
+.carta-pokemon{
+    width:200px;
+    height: 400px;
+    border-radius: 20px;
+    background-color: #DCD0A8;
+}
+.pokemon_id_p{
+    width: 100% !important;
+    text-align: center; 
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: #4A9782;
+}
+.foto-carta{
+    width: 200px;
+}
+</style>
