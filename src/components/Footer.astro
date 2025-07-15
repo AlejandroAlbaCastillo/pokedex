@@ -1,26 +1,31 @@
 <div class="pie">
-    <label>© <label for="" id="anio"></label> Alejandro Alba Castillo. Todos los derechos reservados.</label>
+    <label
+        >© <label for="" id="anio"></label> Alejandro Alba Castillo. Todos los derechos
+        reservados.</label
+    >
 </div>
 
 <script>
-    const añoActual = new Date().getFullYear();
-    console.log(añoActual);
-    $('#anio').val(añoActual)
+    $(document).ready(function () {
+        const añoActual = new Date().getFullYear();
+        console.log(añoActual);
+        $("#anio").text(añoActual);
+    });
 </script>
 
 <style>
-    .pie{
+    .pie {
         background-color: #004030;
-        height:30px;
+        height: 30px;
         position: fixed;
-        bottom:0px;
+        bottom: 0px;
         left: 0px;
-        width:100%;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    label{
+    label {
         color: white;
         font-size: 20px;
     }

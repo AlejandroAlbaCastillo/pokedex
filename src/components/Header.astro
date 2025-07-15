@@ -1,25 +1,96 @@
 ---
-import imagenPrincipal from '../assets/foto-principal.png';
+import imagenPrincipal from "../assets/foto-principal.png";
 ---
 
 <div class="cabecera">
     <img src={imagenPrincipal.src} height="90" alt="Astro Homepage" />
+    <div class="navegador">
+        <div class="boton">
+            <i class="fa-solid fa-hashtag fa-2xl icono-con-fondo" id="pokedex"
+            ></i>
+            <label class="label_nav" for="pokedex" style="display: none;"
+                >Pokedex</label
+            >
+        </div>
+        <div class="boton">
+            <i
+                class="fa-solid fa-calculator fa-2xl icono-con-fondo"
+                id="calculadora"></i>
+            <label class="label_nav" for="calculadora" style="display:none"
+                >Calculadora</label
+            >
+        </div>
+    </div>
 </div>
-
+<script>
+    $(document).ready(function () {
+        $(".icono-con-fondo").hover(
+            function () {
+                // Mostrar el label asociado cuando el ratón entra
+                const id = $(this).attr("id");
+                $(`label[for="${id}"]`).fadeIn(200);
+            },
+            function () {
+                // Ocultar el label cuando el ratón sale
+                const id = $(this).attr("id");
+                $(`label[for="${id}"]`).fadeOut(200);
+            },
+        );
+    });
+</script>
 <style>
-    .cabecera{
+    .cabecera {
         /* 
         004030
         4A9782
         DCD0A8
         FFF9E5
         */
-        background-color: #4A9782;
+        background-color: #4a9782;
         height: 100px;
         width: 100%;
         /* border-bottom: 1px solid black; */
         position: absolute;
-        top:0;
+        top: 0;
         left: 0;
+        /* padding-inline: 10px; */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .navegador {
+        height: 90px;
+        width: 200px;
+        /* border: 1px solid black; */
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: 20px;
+    }
+    .icono-con-fondo {
+        background-color: #004030; /* color de fondo */
+        color: #dcd0a8; /* color del ícono */
+        padding: 10px;
+        border-radius: 50%; /* redondeado completo */
+        font-size: 24px;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px; /* centrar vertical */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .label_nav {
+        color: #dcd0a8;
+        /* font-weight: bold; */
+        font-family: "Mogra", system-ui;
+    }
+    .boton{
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        align-items: center;
     }
 </style>
