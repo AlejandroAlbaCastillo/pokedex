@@ -1,25 +1,79 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import Layout from '../layouts/Layout.astro';
-import PokemonCard from '../components/PokemonCard.astro';
+import Layout from "../layouts/Layout.astro";
+import PokemonCard from "../components/PokemonCard.astro";
 
-import foto from "../assets/foto-principal.png";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=10');
+const data = await response.json();
+async function obtenerNombreTipo(tipoNameIngles) {
+  const res = await fetch(`https://pokeapi.co/api/v2/type/${tipoNameIngles}`);
+  const data = await res.json();
+
+  const traduccion = data.names.find(n => n.language.name === 'es');
+  const nombre = traduccion ? traduccion.name.toLowerCase() : tipoNameIngles;
+  return quitarTildes(nombre);
+}
+
+const pokemonList = await Promise.all(
+  data.results.map(async (pokemon) => {
+    const res = await fetch(pokemon.url);
+    const pokeData = await res.json();
+
+    const type1 = pokeData.types[0]?.type.name;
+    const type2 = pokeData.types[1]?.type.name;
+
+    const type_1 = await obtenerNombreTipo(type1);
+    const type_2 = type2 ? await obtenerNombreTipo(type2) : '';
+
+    return {
+      pokedex_id: pokeData.id.toString().padStart(4, '0'),
+      name: pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1),
+      photo: pokeData.sprites.other['official-artwork'].front_default,
+      type_1,
+      type_2,
+      classname_1: obtenerClaseTipo(type_1),
+      classname_2: type_2 ? obtenerClaseTipo(type_2) : ''
+    };
+  })
+);
+
+
+
+function quitarTildes(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+function obtenerClaseTipo(tipo) {
+  return `tipo-${tipo.toLowerCase()}`; // por ejemplo: tipo-planta, tipo-fuego...
+}
 ---
 
 <Layout>
-	<Header />
 
-        <h1>Pokedex</h1>
-        <PokemonCard
-        pokedex_id='0001'
-        name='Bulbasaur'
-        photo={foto.src}
-        type_1='Planta'
-        type_2='Veneno'
-        />
-	 <Footer />
+    <h1>Pokedex</h1>
+    <div class="pokedex_grid">
+        {pokemonList.map((poke) => (
+            <PokemonCard 
+                pokedex_id={poke.pokedex_id}
+                name={poke.name}
+                photo={poke.photo}
+                type_1={poke.type_1}
+                type_2={poke.type_2}
+                classname_1={poke.classname_1}
+                classname_2={poke.classname_2}
+            />
+          ))}
+    </div>
 </Layout>
+<style>
+    .pokedex_grid{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+        padding-inline:20px;
+		margin-bottom:40px;
+    }
+</style>
